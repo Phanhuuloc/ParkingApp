@@ -1,0 +1,168 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Rectangle Events</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #floating-panel {
+            position: absolute;
+            top: 10px;
+            left: 25%;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: 'Roboto', 'sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+        }
+    </style>
+    <script type="text/javascript" src="js/google.maps.Polygon.rotate.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="floating-panel">
+    <input type="button" id="btnRotate" value="Submit" onclick="submitSlot()"></div>
+<div id="map"></div>
+<script>
+    // This example adds a user-editable rectangle to the map.
+    // When the user changes the bounds of the rectangle,
+    // an info window pops up displaying the new bounds.
+
+    var rectangle;
+    var map;
+    var infoWindow;
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 10.80165985623641, lng: 106.64035136938094},
+            zoom: 20
+        });
+
+        var bounds = {
+            north: 10.80170768163061,
+            south: 10.80165985623641,
+            east: 106.64035136938094,
+            west: 106.64029584169384
+        };
+
+        // Define the rectangle and set its editable property to true.
+        rectangle = new google.maps.Rectangle({
+            bounds: bounds,
+            zIndex: 999,
+            editable: true,
+            draggable: true
+        });
+
+        rectangle.setMap(map);
+
+        // Add an event listener on the rectangle.
+        rectangle.addListener('bounds_changed', showNewRect);
+
+        // Define an info window on the map.
+        infoWindow = new google.maps.InfoWindow();
+    }
+
+    // Show the new coordinates for the rectangle in an info window.
+
+    /** @this {google.maps.Rectangle} */
+    function showNewRect(event) {
+        var ne = rectangle.getBounds().getNorthEast();
+        var sw = rectangle.getBounds().getSouthWest();
+
+        var contentString = '<b>Rectangle moved.</b><br>' +
+            'New north-east corner: ' + ne.lat() + ', ' + ne.lng() + '<br>' +
+            'New south-west corner: ' + sw.lat() + ', ' + sw.lng();
+
+        // Set the info window's content and position.
+        infoWindow.setContent(contentString);
+        infoWindow.setPosition(ne);
+
+        infoWindow.open(map);
+    }
+
+    function submitSlot() {
+        console.log("click submit");
+        var name = prompt("Please enter area name", "G1");
+        var status = prompt("Please enter status", "0");
+
+        drawPolygonSlot();
+
+        var ne = rectangle.getBounds().getNorthEast();
+        var sw = rectangle.getBounds().getSouthWest();
+
+        var ltLat = fixLengthLatLon(sw.lat());
+        var ltLong = fixLengthLatLon(ne.lng());
+
+        var rtLat = fixLengthLatLon(ne.lat());
+        var rtLong = fixLengthLatLon(ne.lng());
+
+        var lbLat = fixLengthLatLon(ne.lat());
+        var lbLong = fixLengthLatLon(sw.lng());
+
+        var rbLat = fixLengthLatLon(sw.lat());
+        var rbLong = fixLengthLatLon(sw.lng());
+
+        $.post("http://192.168.1.41:8888/api/area/create", {
+            name, status, ltLat, ltLong, rtLong, rtLat,
+            lbLat, lbLong, rbLat, rbLong
+        });
+    }
+
+    function drawPolygonSlot() {
+        var ne = rectangle.getBounds().getNorthEast();
+        var sw = rectangle.getBounds().getSouthWest();
+        // Define the LatLng coordinates for the polygon's path.
+        var triangleCoords = [
+            {lat: fixLengthLatLon(ne.lat()), lng: fixLengthLatLon(ne.lng())},
+            {lat: fixLengthLatLon(ne.lat()), lng: fixLengthLatLon(sw.lng())},
+            {lat: fixLengthLatLon(sw.lat()), lng: fixLengthLatLon(sw.lng())},
+            {lat: fixLengthLatLon(sw.lat()), lng: fixLengthLatLon(ne.lng())},
+            {lat: fixLengthLatLon(ne.lat()), lng: fixLengthLatLon(ne.lng())}
+        ];
+
+        var bermudaTriangle = new google.maps.Polygon({
+            paths: triangleCoords,
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            draggable: false,
+            geodesic: false,
+            zIndex: 0
+        });
+
+        bermudaTriangle.setMap(map);
+    }
+
+    function fixLengthLatLon(latOrLng) {
+        latOrLng = latOrLng + '';
+        console.log(latOrLng.substring(0, latOrLng.indexOf("\.") + 8));
+        return parseFloat(latOrLng.substring(0, latOrLng.indexOf("\.") + 8));
+    }
+
+    function submitSuccess() {
+        console.log();
+    }
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAz8N6OA4BAFRbcUVK-uAxKekwxYEuy8VM&callback=initMap">
+</script>
+</body>
+</html>
