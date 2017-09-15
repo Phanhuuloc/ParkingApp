@@ -11,11 +11,110 @@
 
     <url>http://maven.apache.org</url>
 
+    <profiles>
+        <profile>
+            <id>prod</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <build.profile.id>prod</build.profile.id>
+                <profileActive>prod</profileActive>
+            </properties>
+            <build>
+                <finalName>webapp</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <debug>false</debug>
+                            <optimize>true</optimize>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>clean-deploy</id>
+                                <phase>clean</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <delete includeemptydirs="true">
+                                            <fileset dir="${project.basedir}/../../Server/webapp">
+                                                <include name="**/*"/>
+                                                <exclude name="**/TOMCAT8/**"/>
+                                            </fileset>
+                                        </delete>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-deploy</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <delete>
+                                            <dirset dir="target/webapp/META-INF"/>
+                                            <fileset dir="target/webapp/WEB-INF/classes" includes="*.md"/>
+                                        </delete>
+                                        <copy todir="${project.basedir}/../../Server/webapp">
+                                            <fileset dir="target/webapp"/>
+                                        </copy>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <dependencies>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <build.profile.id>dev</build.profile.id>
+                <profileActive>dev</profileActive>
+            </properties>
+            <build>
+                <finalName>webapp-dev</finalName>
+            </build>
+        </profile>
+        <profile>
+            <id>test</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <build.profile.id>test</build.profile.id>
+                <profileActive>test</profileActive>
+            </properties>
+            <build>
+                <finalName>webapp-test</finalName>
+            </build>
+        </profile>
+    </profiles>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.6.RELEASE</version>
     </parent>
+
+    <properties>
+        <main.basedir>${project.basedir}</main.basedir>
+    </properties>
+
 
     <dependencies>
         <dependency>

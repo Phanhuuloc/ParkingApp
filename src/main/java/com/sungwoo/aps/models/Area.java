@@ -10,8 +10,7 @@ import javax.validation.constraints.Min;
 /**
  * @author phloc
  */
-@Entity
-@Table(name = "PARKING_AREA_INFO")
+@Entity(name = "PARKING_AREA_INFO")
 public class Area implements SungWooModel {
 
     @Id

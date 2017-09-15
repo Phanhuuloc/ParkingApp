@@ -1,9 +1,8 @@
 package com.sungwoo.aps.controllers;
 
 import com.sungwoo.aps.models.Car;
-import com.sungwoo.aps.resp.PermissionResp;
+import com.sungwoo.aps.resp.RequestResp;
 import com.sungwoo.aps.services.CarService;
-import com.sungwoo.aps.services.TCPConnection;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -31,7 +30,9 @@ public class CarController implements CarApi {
     }
 
     @Override
-    @ApiOperation(value = "Get car info by id", notes = "Get car info by uid", response = Car.class,
+    @ApiOperation(value = "Get car info",
+            notes = "Mobile App will submit to get car info by uid every 5 seconds.",
+            response = Car.class,
             tags = {"R-S-APM-03"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Car.class)})
     @GetMapping(value = "/info/{uid}", produces = {"application/json", "text/json"})
@@ -40,7 +41,11 @@ public class CarController implements CarApi {
     }
 
     @Override
-    @ApiOperation(value = "Update car token", notes = "Update car token", response = UUID.class, tags = {"Notification Token",})
+    @ApiOperation(value = "Register access token",
+            notes = "When launch Mobile App, it submits to WebApp to register an access token.\n" +
+                    "This token is used for sending notification to Mobile App later.",
+            response = UUID.class,
+            tags = {" Register Mobile Access Token",})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = UUID.class)})
     @PostMapping(value = "/token")
     public ResponseEntity<String> updateCarToken(@RequestParam("uid") int uid, @RequestParam("token") String token) {
@@ -53,13 +58,16 @@ public class CarController implements CarApi {
     }
 
     @Override
-    @ApiOperation(value = "Car call request", notes = "Car call", response = ResponseEntity.class,
+    @ApiOperation(value = "Car call request",
+            notes = "Mobile App submits a \"CAR CALL\" request. \n" +
+                    "After WebApp recieved this request \n, " +
+                    "it forwards to C++ swautoparking service to process with car",
+            response = ResponseEntity.class,
             tags = {"R-S-CS-01, R-S-CS-02, R-S-CS-03"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = ResponseEntity.class)})
     @PostMapping(value = "/call", produces = {"application/json", "text/json"})
     public ResponseEntity callCar(@RequestParam("car") int carUid) {
-        TCPConnection.Permission resp = carService.carCall(carUid);
-        PermissionResp permissionResp = new PermissionResp(String.format("0x%x", resp.getValue()), resp.getDes());
-        return new ResponseEntity<>(permissionResp, HttpStatus.OK);
+        RequestResp resp = carService.carCall(carUid);
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 }

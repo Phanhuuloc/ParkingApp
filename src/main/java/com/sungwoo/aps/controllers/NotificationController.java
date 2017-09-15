@@ -28,7 +28,11 @@ public class NotificationController implements NotificationApi {
     }
 
     @Override
-    @ApiOperation(value = "Push finish parking/car-call", response = ResponseEntity.class,
+    @ApiOperation(value = "Push finish parking/car-call",
+            notes = "After car moved to parking slot / pick up point. C++ swautoparking will submit to WebApp. \n" +
+                    "Then WebApp sends a notification to Mobile App via registered access token.\n" +
+                    "Ref API: /car/toke",
+            response = ResponseEntity.class,
             tags = {"R-S-APM-06",})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @PostMapping(value = "/success")

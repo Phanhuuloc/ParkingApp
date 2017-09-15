@@ -7,14 +7,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AdminController implements AdminApi {
 
-    @ApiOperation(value = "Page submit new area", notes = "Page submit new area",
-            tags = {"Create",})
+    @ApiOperation(value = "Generate a dummy lot on G-MAP on Admin page",
+            notes = "Generate a dummy lot on G-MAP on Admin page",
+            tags = {" Generate Dummy Lot on G-MAP ",})
     @GetMapping("/admin")
     public String requestAdmin() {
         return "admin-page";
     }
 
-    @ApiOperation(value = "Page submit new area", notes = "Page submit new area",
+    @ApiOperation(hidden = true,
+            value = "Api doc",
+            notes = "Api doc",
             tags = {"Api Doc",})
     @GetMapping("/")
     public String requestHome() {

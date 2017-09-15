@@ -3,6 +3,8 @@ package com.sungwoo.aps.services;
 import com.sungwoo.aps.commons.ApsProperties;
 import com.sungwoo.aps.models.Area;
 import com.sungwoo.aps.repo.AreaRepo;
+import com.sungwoo.aps.resp.DummyPath;
+import com.sungwoo.aps.resp.RequestResp;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +30,22 @@ public class AreaService {
     /**
      * Execute parking tcp request
      *
-     * @param carId car uid
+     * @param carId  car uid
      * @param areaId parking uid
      * @throws JSONException
      */
-    public TCPConnection.Permission doOnRequestParking(int carId, int areaId) {
-        return TCPConnection.init(properties)
-                .request(areaId, carId)
+    public RequestResp doOnRequestParking(int carId, Area area) {
+        TCPConnection.Permission permission = TCPConnection.init(properties)
+                .request(area.getUid(), carId)
                 .build()
                 .execute();
+        RequestResp resp = new RequestResp(String.format("0x%x", permission.getValue()), permission.getDes());
+        if (permission.getValue() == TCPConnection.Permission.ALLOW.getValue()) {
+            resp.setArea(area);
+            resp.setPoints(DummyPath.buildPath());
+            return resp;
+        }
+        return resp;
     }
 
 
@@ -74,8 +83,8 @@ public class AreaService {
      * @param rbLong
      * @return area
      */
-    public Area createArea(String areaname,  int status, double ltLat, double ltLong, double rtLat,
-                            double rtLong, double lbLat, double lbLong, double rbLat, double rbLong) {
+    public Area createArea(String areaname, int status, double ltLat, double ltLong, double rtLat,
+                           double rtLong, double lbLat, double lbLong, double rbLat, double rbLong) {
         Area area = areaRepo.findFirstByName(areaname);
         if (area == null) {
             area = new Area(areaname);

@@ -17,5 +17,5 @@ public interface AdminApi {
      *
      * @return
      */
-    public String requestHome();
+    String requestHome();
 }

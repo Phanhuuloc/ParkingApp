@@ -15,8 +15,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class SwaggerDocumentationConfig {
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Sungwoo api")
-                .description("Public java api for Sungwoo webservices")
+                .title("APS WebApp API")
+                .description("Public API for Sungwoo Mobile APS Web Service.")
                 .license("Sungwoo")
                 .licenseUrl("")
                 .termsOfServiceUrl("")

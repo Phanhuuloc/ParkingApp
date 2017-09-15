@@ -89,7 +89,6 @@ public class AndroidPushNotificationsService {
      *
      * @param carUid car uid
      * @return ResponseEntity
-     * @throws JSONException
      */
     public ResponseEntity<String> pushNotificationToDevice(int carUid){
         Car car = carRepo.findByUid(carUid);
