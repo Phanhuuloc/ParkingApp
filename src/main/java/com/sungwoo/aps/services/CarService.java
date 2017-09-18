@@ -1,6 +1,5 @@
 package com.sungwoo.aps.services;
 
-import com.sungwoo.aps.commons.ApsProperties;
 import com.sungwoo.aps.models.Car;
 import com.sungwoo.aps.repo.CarRepo;
 import com.sungwoo.aps.resp.DummyPath;
@@ -17,14 +16,14 @@ import java.util.List;
  */
 @Service
 public class CarService {
-    private final static Logger LOGGER = Logger.getLogger(CarService.class);
+    private final static Logger LOGGER = Logger.getLogger(CarService.class.getName());
     private final CarRepo carRepo;
-    private final ApsProperties properties;
+    TCPConnection tcpConnection;
 
     @Autowired
-    public CarService(CarRepo carRepo, ApsProperties properties) {
+    public CarService(CarRepo carRepo, TCPConnection tcpConnection) {
         this.carRepo = carRepo;
-        this.properties = properties;
+        this.tcpConnection = tcpConnection;
     }
 
     /**
@@ -43,10 +42,7 @@ public class CarService {
      * @param carId car id
      */
     public RequestResp carCall(int carId) {
-        TCPConnection.Permission permission = TCPConnection.init(properties)
-                .request(carId)
-                .build()
-                .execute();
+        TCPConnection.Permission permission = tcpConnection.execute(carId);
         RequestResp resp = new RequestResp(String.format("0x%x", permission.getValue()), permission.getDes());
         if (permission.getValue() == TCPConnection.Permission.ALLOW.getValue()) {
             List path = DummyPath.buildPath();

@@ -36,8 +36,14 @@ public class CarController implements CarApi {
             tags = {"R-S-APM-03"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Car.class)})
     @GetMapping(value = "/info/{uid}", produces = {"application/json", "text/json"})
-    public Car findCarByUid(@PathVariable("uid") int uid) {
-        return carService.findByUid(uid);
+    public ResponseEntity<Car> findCarByUid(@PathVariable("uid") int uid) {
+        Car car = carService.findByUid(uid);
+        if (car != null) {
+            return new ResponseEntity<>(car, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @Override

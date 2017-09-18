@@ -1,6 +1,5 @@
 package com.sungwoo.aps.controllers;
 
-import com.sungwoo.aps.models.Car;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -15,7 +14,7 @@ public interface CarApi {
      * @param uid uid of a car
      * @return car
      */
-    Car findCarByUid(int uid);
+    ResponseEntity findCarByUid(int uid);
 
     /**
      * Update token to a car

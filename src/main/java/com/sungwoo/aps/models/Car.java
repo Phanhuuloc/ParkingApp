@@ -1,5 +1,6 @@
 package com.sungwoo.aps.models;
 
+import lombok.Data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,7 +14,8 @@ import java.util.Date;
  * @author phloc
  */
 @Entity(name = "AUTONOMOUS_CAR_INFO")
-public class Car implements SungWooModel {
+public @Data
+class Car implements SungWooModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "CAR_ID", length = 16)
@@ -30,68 +32,6 @@ public class Car implements SungWooModel {
     @Column(name = "lat_location")
     private double lat;
 
-    public Car() {
-    }
-
-    public int getUid() {
-        return uid;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
-    }
-
-    public Date getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public double getLon() {
-        return lon;
-    }
-
-    public void setLon(double lon) {
-        this.lon = lon;
-    }
-
-    public double getLat() {
-        return lat;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    @Override
-    public String toString() {
-        return "Car{" +
-                "uid=" + uid +
-                ", token='" + token + '\'' +
-                ", status=" + status +
-                ", lon=" + lon +
-                ", lat=" + lat +
-                '}';
-    }
-
     @Override
     public JSONObject toJSON() {
         JSONObject body = new JSONObject();
@@ -105,6 +45,4 @@ public class Car implements SungWooModel {
         }
         return body;
     }
-
-
 }

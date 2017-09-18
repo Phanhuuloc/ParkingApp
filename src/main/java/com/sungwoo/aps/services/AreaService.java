@@ -1,44 +1,40 @@
 package com.sungwoo.aps.services;
 
-import com.sungwoo.aps.commons.ApsProperties;
 import com.sungwoo.aps.models.Area;
 import com.sungwoo.aps.repo.AreaRepo;
 import com.sungwoo.aps.resp.DummyPath;
 import com.sungwoo.aps.resp.RequestResp;
-import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author phloc
  */
 @Service
 public class AreaService {
-    private final static Logger LOGGER = Logger.getLogger(AreaService.class);
+    private final static Logger LOGGER = Logger.getLogger(AreaService.class.getName());
     private final AreaRepo areaRepo;
-    private final ApsProperties properties;
+    private final TCPConnection tcpConnection;
 
     @Autowired
-    public AreaService(AreaRepo areaRepo, ApsProperties properties) {
+    public AreaService(AreaRepo areaRepo, TCPConnection tcpConnection) {
         this.areaRepo = areaRepo;
-        this.properties = properties;
+        this.tcpConnection = tcpConnection;
     }
 
     /**
      * Execute parking tcp request
      *
      * @param carId  car uid
-     * @param areaId parking uid
+     * @param area parking area
      * @throws JSONException
      */
     public RequestResp doOnRequestParking(int carId, Area area) {
-        TCPConnection.Permission permission = TCPConnection.init(properties)
-                .request(area.getUid(), carId)
-                .build()
-                .execute();
+        TCPConnection.Permission permission = tcpConnection.execute(area.getUid(), carId);
         RequestResp resp = new RequestResp(String.format("0x%x", permission.getValue()), permission.getDes());
         if (permission.getValue() == TCPConnection.Permission.ALLOW.getValue()) {
             resp.setArea(area);

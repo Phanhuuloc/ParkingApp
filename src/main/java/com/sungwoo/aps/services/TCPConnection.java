@@ -1,7 +1,8 @@
 package com.sungwoo.aps.services;
 
-import com.sungwoo.aps.commons.ApsProperties;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -14,9 +15,9 @@ import java.util.Arrays;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
+@Component
 public class TCPConnection {
     private final static Logger LOGGER = Logger.getLogger(TCPConnection.class);
-
     private static final byte PACKET_SOURCE = 0x03;
     private static final byte PACKET_DES = 0x02;
 
@@ -25,29 +26,24 @@ public class TCPConnection {
     private static final int ALLOC_DATA_CAR = 4;
     private static final int ALLOC_DATA_PARKING_AREA = 4;
 
-    private final int[] ids;
-    private ApsProperties properties;
+    @Value("${aps.tcp.server:localhost}")
+    private String tcpServer;
+    @Value("${aps.tcp.port:5001}")
+    private int tcpPort;
+    @Value("${aps.tcp.timeout:5000}")
+    private int tcpTimeout;
 
-    private TCPConnection(Builder builder) {
-        this.properties = builder.properties;
-        this.ids = builder.ids;
-    }
-
-    static Builder init(ApsProperties properties) {
-        return new Builder(properties);
-    }
-
-    private byte[] buildTCPRequest() {
+    private byte[] buildTCPRequest(int[] ids) {
         if (1 == ids.length) {
-            return buildPacket(Command.CAR_CALL, ALLOC_DATA_CAR);
+            return buildPacket(ids, TCPConnection.Command.CAR_CALL, ALLOC_DATA_CAR);
         } else if (2 == ids.length) {
-            return buildPacket(Command.CAR_PARKING, ALLOC_DATA_CAR + ALLOC_DATA_PARKING_AREA);
+            return buildPacket(ids, TCPConnection.Command.CAR_PARKING, ALLOC_DATA_CAR + ALLOC_DATA_PARKING_AREA);
         } else {
             return null;
         }
     }
 
-    private byte[] buildPacket(Command command, int dataSize) {
+    private byte[] buildPacket(int[] ids, Command command, int dataSize) {
         LOGGER.info("Build execute command on socket: " + command.description);
 
         int ALLOC_PACKET = ALLOC_CRC + ALLOC_HEADER + dataSize;
@@ -107,11 +103,8 @@ public class TCPConnection {
                 (b[0] & 0xFF);
     }
 
-    Permission execute() {
-        Permission res = null;
-        String tcpServer = properties.getTcp().getServer();
-        int tcpPort = properties.getTcp().getPort();
-        int tcpTimeout = properties.getTcp().getTimeout();
+    TCPConnection.Permission execute(int... ids) {
+        TCPConnection.Permission res = null;
         LOGGER.info(String.format("Execute parking command on socket %s:%d", tcpServer, tcpPort));
 
         Socket socket = new Socket();
@@ -123,7 +116,7 @@ public class TCPConnection {
             DataOutputStream os = new DataOutputStream(socket.getOutputStream());
             InputStream stream = socket.getInputStream();
 
-            byte[] req = buildTCPRequest();
+            byte[] req = buildTCPRequest(ids);
             assert req != null;
             os.write(req);
 
@@ -147,10 +140,10 @@ public class TCPConnection {
             LOGGER.info(String.format("Check CRC. Receive: %d, check %d", byteArrayToInt(crc), checksumValue));
 
             int permission = data[data.length - 1];
-            if (Permission.ALLOW.value == permission) {
-                res = Permission.ALLOW;
+            if (TCPConnection.Permission.ALLOW.value == permission) {
+                res = TCPConnection.Permission.ALLOW;
             } else {
-                res = Permission.DENY;
+                res = TCPConnection.Permission.DENY;
             }
 
             socket.close();
@@ -199,24 +192,6 @@ public class TCPConnection {
 
         public String getDes() {
             return des;
-        }
-    }
-
-    public static final class Builder {
-        private int[] ids;
-        private ApsProperties properties;
-
-        private Builder(ApsProperties properties) {
-            this.properties = properties;
-        }
-
-        TCPConnection build() {
-            return new TCPConnection(this);
-        }
-
-        public Builder request(int... ids) {
-            this.ids = ids;
-            return this;
         }
     }
 }
