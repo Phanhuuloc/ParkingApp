@@ -5,12 +5,8 @@
 //import com.sungwoo.aps.commons.CarStatus;
 //import com.sungwoo.aps.models.Area;
 //import com.sungwoo.aps.models.Car;
-//import com.sungwoo.aps.models.Lot;
-//import com.sungwoo.aps.models.Parking;
 //import com.sungwoo.aps.repo.AreaRepo;
 //import com.sungwoo.aps.repo.CarRepo;
-//import com.sungwoo.aps.repo.LotRepo;
-//import com.sungwoo.aps.repo.ParkingRepo;
 //import org.junit.After;
 //import org.junit.Before;
 //import org.junit.Test;
@@ -22,9 +18,6 @@
 //import org.springframework.http.MediaType;
 //import org.springframework.test.context.junit4.SpringRunner;
 //import org.springframework.test.web.servlet.MockMvc;
-//
-//import java.util.HashSet;
-//import java.util.Set;
 //
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 //import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -46,53 +39,55 @@
 //    @Autowired
 //    private CarRepo carRepo;
 //
-//    @Autowired
-//    private ParkingRepo parkingRepo;
-//
-//    @Autowired
-//    private LotRepo lotRepo;
-//
+//    private Area a1;
+//    private Area a2;
 //    private Car bmw;
-//    private Parking parkingA;
-//    private Parking parkingB;
 //    private Car iz;
 //
 //    @Before
 //    public void init() {
 //        // given
-//        bmw = new Car("52B2-99999");
-//        bmw.setStatus(CarStatus.ARRIVED.Value());
+//        bmw = new Car();
+//        bmw.setStatus(CarStatus.ARRIVED.value());
 //        carRepo.saveAndFlush(bmw);
 //
-//        iz = new Car("52B2-99998");
-//        iz.setStatus(CarStatus.PARKING.Value());
+//        iz = new Car();
+//        iz.setStatus(CarStatus.PARKING.value());
 //        carRepo.saveAndFlush(iz);
 //
-//        parkingA = createParking("Etown2","A",false);
-//        parkingB = createParking("Etown3","D",true);
+//        a1 = new Area();
+//        a1.setStatus(AreaStatus.FULL.value());
+//        areaRepo.saveAndFlush(a1);
+//
+//        a2 = new Area();
+//        a2.setStatus(AreaStatus.FULL.value());
+//        areaRepo.saveAndFlush(a2);
+//
+////        parkingA = createParking("Etown2","A",false);
+////        parkingB = createParking("Etown3","D",true);
 //    }
 //
-//    private Parking createParking(String pName, String lName, boolean isFull) {
-//        Parking parking = new Parking(pName);
-//        Lot lot = new Lot(lName);
-//
-//        Set<Lot> lots = new HashSet<>();
-//        lots.add(lot);
-//
-//        Set<Area> areas = new HashSet<>();
-//        for (int i = 0; i < 2; i++) {
-//            Area area = new Area(lName + i, isFull ? AreaStatus.FULL.Value() : AreaStatus.EMPTY.Value());
-//            area.setLot(lot);
-//            areas.add(area);
-//        }
-//
-//        lot.setAreas(areas);
-//        lot.setParking(parking);
-//        parking.setLots(lots);
-//
-//        parkingRepo.saveAndFlush(parking);
-//        return parking;
-//    }
+////    private Parking createParking(String pName, String lName, boolean isFull) {
+////        Parking parking = new Parking(pName);
+////        Lot lot = new Lot(lName);
+////
+////        Set<Lot> lots = new HashSet<>();
+////        lots.add(lot);
+////
+////        Set<Area> areas = new HashSet<>();
+////        for (int i = 0; i < 2; i++) {
+////            Area area = new Area(lName + i, isFull ? AreaStatus.FULL.Value() : AreaStatus.EMPTY.Value());
+////            area.setLot(lot);
+////            areas.add(area);
+////        }
+////
+////        lot.setAreas(areas);
+////        lot.setParking(parking);
+////        parking.setLots(lots);
+////
+////        parkingRepo.saveAndFlush(parking);
+////        return parking;
+////    }
 //
 //    @After
 //    public void resetDb() {
@@ -106,21 +101,20 @@
 //            throws Exception {
 //        mvc.perform(post("/area/parking")
 //                .contentType(MediaType.APPLICATION_JSON)
-//                .param("car", String.valueOf(bmw.getUid()))
-//                .param("p", String.valueOf(parkingA.getUid())))
+//                .param("car", String.valueOf(bmw.getUid())))
 //                .andExpect(status().isOk())
 //                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 //    }
 //
-//    //case 1 parking has full area
-//    @Test
-//    public void givenACar_andFullParking_whenRequestParking_thenStatus200()
-//            throws Exception {
-//        mvc.perform(post("/area/parking")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .param("car", String.valueOf(bmw.getUid()))
-//                .param("p", String.valueOf(parkingB.getUid())))
-//                .andExpect(status().isLocked());
-//    }
+////    //case 1 parking has full area
+////    @Test
+////    public void givenACar_andFullParking_whenRequestParking_thenStatus200()
+////            throws Exception {
+////        mvc.perform(post("/area/parking")
+////                .contentType(MediaType.APPLICATION_JSON)
+////                .param("car", String.valueOf(bmw.getUid()))
+////                .param("p", String.valueOf(parkingB.getUid())))
+////                .andExpect(status().isLocked());
+////    }
 //
 //}

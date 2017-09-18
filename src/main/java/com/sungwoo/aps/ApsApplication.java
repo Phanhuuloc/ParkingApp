@@ -6,16 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import springfox.documentation.swagger.web.UiConfiguration;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
 
 /**
  * @author phloc
  */
-@EnableSwagger2
 @SpringBootApplication
 public class ApsApplication extends SpringBootServletInitializer {
     private final static Logger LOGGER = Logger.getLogger(ApsApplication.class);
@@ -33,11 +29,5 @@ public class ApsApplication extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(ApsApplication.class);
-    }
-
-    @Bean
-    UiConfiguration uiConfig() {
-        return new UiConfiguration(
-                "aps.sungwoo.com");
     }
 }
