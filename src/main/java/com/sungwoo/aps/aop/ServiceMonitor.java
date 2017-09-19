@@ -2,12 +2,12 @@ package com.sungwoo.aps.aop;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -95,6 +95,15 @@ public class ServiceMonitor {
         return retVal;
     }
 
+    @Around("SystemArchitecture.secureMethod() && args(isAdmin)")
+    public Object checkSecurity(ProceedingJoinPoint pjp, boolean isAdmin) throws Throwable {
+        if (isAdmin) {
+            return pjp.proceed();
+        } else {
+            return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
     @Before(value = "SystemArchitecture.getMethodOperation()",
             argNames = "joinPoint")
     public void getMethodOperation(JoinPoint joinPoint) {
@@ -130,7 +139,7 @@ public class ServiceMonitor {
     @AfterReturning(pointcut = "SystemArchitecture.controllerOperation()", argNames = "joinPoint, retVal",
             returning = "retVal")
     public void onControllerReturn(JoinPoint joinPoint, Object retVal) {
-        LOGGER.info(String.format("%s with param %s",
+        LOGGER.info(String.format("%s return %s",
                 joinPoint, retVal));
         LOGGER.info("--------------------------------------------- END --------------------------------------------");
     }

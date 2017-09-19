@@ -15,7 +15,7 @@ public class AdminController implements AdminApi {
         return "admin-page";
     }
 
-    @ApiOperation(hidden = true,
+    @ApiOperation(hidden = false,
             value = "Api doc",
             notes = "Api doc",
             tags = {"Api Doc",})

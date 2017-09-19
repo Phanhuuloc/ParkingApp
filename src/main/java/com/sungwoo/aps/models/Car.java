@@ -13,9 +13,9 @@ import java.util.Date;
 /**
  * @author phloc
  */
+@Data
 @Entity(name = "AUTONOMOUS_CAR_INFO")
-public @Data
-class Car implements SungWooModel {
+public class Car implements SungWooModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "CAR_ID", length = 16)

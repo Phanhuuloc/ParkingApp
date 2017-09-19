@@ -14,7 +14,6 @@ public class SystemArchitecture {
      */
     @Pointcut("within(com.sungwoo.aps..*)")
     public void inWebLayer() {
-
     }
 
     /**
@@ -24,7 +23,6 @@ public class SystemArchitecture {
      */
     @Pointcut("within(com.sungwoo.aps.services..*)")
     public void inServiceLayer() {
-
     }
 
     /**
@@ -93,8 +91,6 @@ public class SystemArchitecture {
     public void getMethodOperation() {
     }
 
-    ;
-
     /**
      *
      */
@@ -102,6 +98,17 @@ public class SystemArchitecture {
     public void postMethodOperation() {
     }
 
-    ;
+    /**
+     *
+     */
+    @Pointcut(value = "execution(* com.sungwoo.aps..*Controller.*OnSecure(..))")
+    public void secureMethod() {
+    }
+
+//    /**
+//     *
+//     */
+//    @Pointcut("execution(* com.sungwoo.aps..*Controller.*OnSecure(..))")
+//    public void secureMethod() {}
 
 }

@@ -11,9 +11,9 @@ import javax.validation.constraints.Min;
 /**
  * @author phloc
  */
+@Data
 @Entity(name = "PARKING_AREA_INFO")
-public @Data
-class Area implements SungWooModel {
+public class Area implements SungWooModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", length = 16)
@@ -48,6 +48,21 @@ class Area implements SungWooModel {
     public Area(String name, int status) {
         this.name = name;
         this.status = status;
+    }
+
+    public Area(String name, int status,
+                double ltLat, double ltLong, double rtLat, double rtLong,
+                double rbLat, double rbLong, double lbLat, double lbLong) {
+        this.name = name;
+        this.status = status;
+        this.ltLong = ltLong;
+        this.ltLat = ltLat;
+        this.rtLong = rtLong;
+        this.rtLat = rtLat;
+        this.lbLong = lbLong;
+        this.lbLat = lbLat;
+        this.rbLong = rbLong;
+        this.rbLat = rbLat;
     }
 
     public Area(String name) {
