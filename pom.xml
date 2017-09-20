@@ -116,6 +116,19 @@
                 <finalName>webapp-local</finalName>
             </build>
         </profile>
+        <profile>
+            <id>225</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <build.profile.id>225</build.profile.id>
+                <profileActive>225</profileActive>
+            </properties>
+            <build>
+                <finalName>webapp-225</finalName>
+            </build>
+        </profile>
     </profiles>
 
     <parent>
@@ -148,6 +161,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
         </dependency>
 
         <dependency>

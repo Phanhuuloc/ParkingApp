@@ -14,6 +14,6 @@ public final class DummyPath {
                 new Point2D.Double(10.802102770787128, 106.63972534239294),
                 new Point2D.Double(10.802109357490234, 106.63969315588474),
                 new Point2D.Double(10.802117920204061, 106.63966197520494),
-                new Point2D.Double(10.802146572360078, 106.63966935127974));
+                new Point2D.Double(10.802127470923045, 106.63966298103333));
     }
 }
