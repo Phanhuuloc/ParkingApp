@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 @Api(value = "Car", description = "the car API")
 @RestController
-@RequestMapping("/car")
+@RequestMapping("api/car")
 public class CarController implements CarApi {
     private final CarService carService;
 
@@ -35,7 +35,7 @@ public class CarController implements CarApi {
             response = Car.class,
             tags = {"R-S-APM-03"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Car.class)})
-    @GetMapping(value = "/info/{uid}", produces = {"application/json", "text/json"})
+    @GetMapping(value = "info/{uid}", produces = {"application/json", "text/json"})
     public ResponseEntity<Car> findCarByUid(@PathVariable("uid") int uid) {
         Car car = carService.findByUid(uid);
         if (car != null) {
@@ -53,7 +53,7 @@ public class CarController implements CarApi {
             response = UUID.class,
             tags = {" Register Mobile Access Token",})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = UUID.class)})
-    @PostMapping(value = "/token")
+    @PostMapping(value = "token")
     public ResponseEntity<String> updateCarToken(@RequestParam("uid") int uid, @RequestParam("token") String token) {
         if (StringUtils.isNotBlank(token)) {
             carService.updateCarToken(uid, token);
@@ -71,7 +71,7 @@ public class CarController implements CarApi {
             response = ResponseEntity.class,
             tags = {"R-S-CS-01, R-S-CS-02, R-S-CS-03"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = ResponseEntity.class)})
-    @PostMapping(value = "/call", produces = {"application/json", "text/json"})
+    @PostMapping(value = "call", produces = {"application/json", "text/json"})
     public ResponseEntity callCar(@RequestParam("car") int carUid) {
         RequestResp resp = carService.carCall(carUid);
         return new ResponseEntity<>(resp, HttpStatus.OK);

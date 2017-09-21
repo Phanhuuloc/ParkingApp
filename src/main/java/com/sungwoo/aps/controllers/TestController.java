@@ -26,9 +26,9 @@ import java.util.List;
 
 @Api(tags = "Monitor")
 @Controller
-@RequestMapping("/test")
+@RequestMapping("test")
 @Component
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, order = 1)
 public class TestController {
     @Value("${name:World}")
     private String name;
@@ -43,28 +43,29 @@ public class TestController {
         this.repo = repo;
     }
 
+
     @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
     @ResponseBody
-    @GetMapping("/greeting")
+    @GetMapping("greeting")
     public ResponseEntity getHelloMessage() {
         return new ResponseEntity<>(String.format("Hello %s", this.name), HttpStatus.OK);
     }
 
     @Secured("ADMIN")
     @ResponseBody
-    @GetMapping("/ad/greeting")
+    @GetMapping("ad/greeting")
     public ResponseEntity getHelloMessageRoleAdmin() {
         return new ResponseEntity<>(String.format("Hello %s", this.name), HttpStatus.OK);
     }
 
     @ResponseBody
-    @GetMapping("/aop/greeting")
+    @GetMapping("aop/greeting")
     public ResponseEntity getHelloMessageOnSecure(@RequestParam boolean isAdmin) {
         return new ResponseEntity<>(String.format("Hello %s", this.name), HttpStatus.OK);
     }
 
     @ResponseBody
-    @GetMapping("/batch")
+    @GetMapping("batch")
     public ResponseEntity batchArea() {
         List<Area> areas = insertDB.initDefaultLocal();
         for (Area area : areas) {
@@ -91,7 +92,7 @@ public class TestController {
     }
 
     @GetMapping("")
-    public String index() {
+    String index() {
         return "index";
     }
 
@@ -101,8 +102,18 @@ public class TestController {
     }
 
     @GetMapping("/403")
-    public String accessDenied() {
+    String accessDenied() {
         return "403";
+    }
+
+    @GetMapping("/error")
+    public String error() {
+        return "error";
+    }
+
+    @GetMapping("/register")
+    public String getRegister() {
+        return "register";
     }
 
     @GetMapping("/login")

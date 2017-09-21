@@ -4,7 +4,10 @@ import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -107,7 +110,7 @@ public class ServiceMonitor {
     @Before(value = "SystemArchitecture.getMethodOperation()",
             argNames = "joinPoint")
     public void getMethodOperation(JoinPoint joinPoint) {
-        LOGGER.info(String.format("--------------------- BEGIN GET METHOD: %s --------------------",
+        LOGGER.info(String.format("--------------------- RECEIVE GET REQUEST: %s --------------------",
                 getRequest(joinPoint)));
         LOGGER.info(String.format("Call %s", controllerMethod(joinPoint)));
     }
@@ -115,7 +118,7 @@ public class ServiceMonitor {
     @Before(value = "SystemArchitecture.postMethodOperation()",
             argNames = "joinPoint")
     public void postMethodOperation(JoinPoint joinPoint) {
-        LOGGER.info(String.format("--------------------- BEGIN GET METHOD: %s --------------------",
+        LOGGER.info(String.format("--------------------- RECEIVE POST REQUEST: %s --------------------",
                 getRequest(joinPoint)));
         LOGGER.info(String.format("Call %s", controllerMethod(joinPoint)));
     }
@@ -156,9 +159,9 @@ public class ServiceMonitor {
         LOGGER.info(String.format("%s, return %s ", joinPoint, retVal));
     }
 
-    @AfterThrowing(pointcut = "SystemArchitecture.controllerOperation()", throwing = "ex")
-    public void doRecoveryActions(Exception ex) {
-        LOGGER.info(ex.getMessage());
-    }
+//    @AfterThrowing(pointcut = "SystemArchitecture.controllerOperation()", throwing = "ex")
+//    public void doRecoveryActions(Exception ex) {
+//        LOGGER.info(ex.getMessage());
+//    }
 
 }

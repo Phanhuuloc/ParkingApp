@@ -99,8 +99,8 @@ public class AndroidPushNotificationsService {
             String notify = CarStatus.values()[car.getStatus()].toString();
             LOGGER.info(String.format("Car finish moving, send %s to server", notify));
 
-//            JSONObject notification = buildNotification(notify);
-//            body.put("notification", notification);
+            JSONObject notification = buildNotification(notify);
+            body.put("notification", notification);
 
             JSONObject carObj = buildData(car);
             body.put("data", carObj);

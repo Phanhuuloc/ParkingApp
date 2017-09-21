@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Api(value = "Area", description = "Area Api")
 @RestController
-@RequestMapping("/area")
+@RequestMapping("api/area")
 public class AreaController implements AreaApi {
     private final AreaService areaService;
 
@@ -37,7 +37,7 @@ public class AreaController implements AreaApi {
             response = ResponseEntity.class,
             tags = {"R-A-PIR-01, R-A-PIR-02"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = ResponseEntity.class)})
-    @GetMapping(value = "/all", produces = {"application/json", "text/json"})
+    @GetMapping(value = "all", produces = {"application/json", "text/json"})
     public ResponseEntity requestAllArea() {
         List<Area> area = areaService.findAll();
         if (area != null) {
@@ -54,7 +54,7 @@ public class AreaController implements AreaApi {
             response = ResponseEntity.class,
             tags = {"R-S-PR-01, R-S-PR-02"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = ResponseEntity.class)})
-    @PostMapping(value = "/parking", produces = {"application/json", "text/json"})
+    @PostMapping(value = "parking", produces = {"application/json", "text/json"})
     public ResponseEntity requestCarParking(@RequestParam("car") int carUid) {
         Area area = areaService.findFirstByStatus(AreaStatus.EMPTY.value());
         if (area != null) {
@@ -72,7 +72,7 @@ public class AreaController implements AreaApi {
             response = ResponseEntity.class,
             tags = {"Create"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = ResponseEntity.class)})
-    @PostMapping(value = "/create",consumes = MediaType.ALL_VALUE,
+    @PostMapping(value = "create", consumes = MediaType.ALL_VALUE,
             produces = {MediaType.ALL_VALUE})
     public ResponseEntity createArea(Area area) {
         Area a = areaService.createArea(area);

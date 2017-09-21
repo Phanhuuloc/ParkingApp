@@ -48,7 +48,7 @@ public class AreaService {
     /**
      * Find first area that match status
      *
-     * @param status
+     * @param status status
      * @return area
      */
     public Area findFirstByStatus(int status) {
@@ -67,17 +67,17 @@ public class AreaService {
     /**
      * Create an area
      *
-     * @param areaname
-     * @param status
-     * @param ltLat
-     * @param ltLong
-     * @param rtLat
-     * @param rtLong
-     * @param lbLat
-     * @param lbLong
-     * @param rbLat
-     * @param rbLong
-     * @return area
+     * @param areaname name
+     * @param status status
+     * @param ltLat left-top lat
+     * @param ltLong left-top long
+     * @param rtLat right-top lat
+     * @param rtLong right-top long
+     * @param lbLat left-bottom lat
+     * @param lbLong left bottom long
+     * @param rbLat right-bottom lat
+     * @param rbLong right-bottom long
+     * @return area area
      */
     public Area createArea(String areaname, int status, double ltLat, double ltLong, double rtLat,
                            double rtLong, double lbLat, double lbLong, double rbLat, double rbLong) {
@@ -99,8 +99,7 @@ public class AreaService {
     }
 
     public Area createArea(Area area) {
-        Area a = areaRepo.saveAndFlush(area);
-        return a;
+        return areaRepo.saveAndFlush(area);
     }
 }
 

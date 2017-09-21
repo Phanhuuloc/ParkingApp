@@ -4,10 +4,10 @@ import com.sungwoo.aps.models.Car;
 import com.sungwoo.aps.repo.CarRepo;
 import com.sungwoo.aps.resp.DummyPath;
 import com.sungwoo.aps.resp.RequestResp;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.geom.Point2D;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,9 +16,9 @@ import java.util.List;
  */
 @Service
 public class CarService {
-    private final static Logger LOGGER = Logger.getLogger(CarService.class.getName());
+    //    private final static Logger LOGGER = Logger.getLogger(CarService.class.getName());
     private final CarRepo carRepo;
-    TCPConnection tcpConnection;
+    private final TCPConnection tcpConnection;
 
     @Autowired
     public CarService(CarRepo carRepo, TCPConnection tcpConnection) {
@@ -30,7 +30,7 @@ public class CarService {
      * Return Car contain uid
      *
      * @param uid car uid
-     * @return
+     * @return car
      */
     public Car findByUid(Integer uid) {
         return carRepo.findByUid(uid);
@@ -45,7 +45,7 @@ public class CarService {
         TCPConnection.Permission permission = tcpConnection.execute(carId);
         RequestResp resp = new RequestResp(String.format("0x%x", permission.getValue()), permission.getDes());
         if (permission.getValue() == TCPConnection.Permission.ALLOW.getValue()) {
-            List path = DummyPath.buildPath();
+            List<Point2D.Double> path = DummyPath.buildPath();
             Collections.reverse(path);
             resp.setPoints(path);
             return resp;

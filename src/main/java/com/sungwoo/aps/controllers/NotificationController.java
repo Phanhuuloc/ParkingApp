@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "Move", description = "the move status API")
 @RestController
-@RequestMapping("/move")
+@RequestMapping("api/move")
 public class NotificationController implements NotificationApi {
 
     private final AndroidPushNotificationsService notificationsService;
@@ -31,11 +31,11 @@ public class NotificationController implements NotificationApi {
     @ApiOperation(value = "Push finish parking/car-call",
             notes = "After car moved to parking slot / pick up point. C++ swautoparking will submit to WebApp. \n" +
                     "Then WebApp sends a notification to Mobile App via registered access token.\n" +
-                    "Ref API: /car/toke",
+                    "Ref API: /car/token",
             response = ResponseEntity.class,
             tags = {"R-S-APM-06",})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
-    @PostMapping(value = "/success")
+    @PostMapping(value = "success")
     public ResponseEntity<String> onCarParkingOrPickupSuccess(@RequestParam("car") int carUid) {
         return notificationsService.pushNotificationToDevice(carUid);
     }

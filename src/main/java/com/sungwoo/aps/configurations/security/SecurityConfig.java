@@ -1,4 +1,4 @@
-//package com.sungwoo.aps.security;
+//package com.sungwoo.aps.configurations.security;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Bean;
