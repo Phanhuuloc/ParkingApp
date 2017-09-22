@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 @Api(value = "Car", description = "the car API")
 @RestController
-@RequestMapping("api/car")
+@RequestMapping("car")
 public class CarController implements CarApi {
     private final CarService carService;
 

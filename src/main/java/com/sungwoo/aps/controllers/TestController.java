@@ -28,7 +28,7 @@ import java.util.List;
 @Controller
 @RequestMapping("test")
 @Component
-@EnableGlobalMethodSecurity(securedEnabled = true, order = 1)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class TestController {
     @Value("${name:World}")
     private String name;
@@ -60,7 +60,8 @@ public class TestController {
 
     @ResponseBody
     @GetMapping("aop/greeting")
-    public ResponseEntity getHelloMessageOnSecure(@RequestParam boolean isAdmin) {
+    public ResponseEntity getHelloMessageOnSecure(/*@RequestHeader(value="User-Agent", defaultValue="foo") String userAgent,*/
+                                                  @RequestParam boolean isAdmin) {
         return new ResponseEntity<>(String.format("Hello %s", this.name), HttpStatus.OK);
     }
 

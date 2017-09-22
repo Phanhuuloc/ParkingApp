@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Api(value = "Area", description = "Area Api")
 @RestController
-@RequestMapping("api/area")
+@RequestMapping("area")
 public class AreaController implements AreaApi {
     private final AreaService areaService;
 

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "Move", description = "the move status API")
 @RestController
-@RequestMapping("api/move")
+@RequestMapping("move")
 public class NotificationController implements NotificationApi {
 
     private final AndroidPushNotificationsService notificationsService;

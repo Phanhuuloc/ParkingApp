@@ -3,10 +3,9 @@ package com.sungwoo.aps.controllers;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("api")
+//@RequestMapping("api")
 public class AdminController implements AdminApi {
 
     @ApiOperation(value = "Generate a dummy lot on G-MAP on Admin page",
