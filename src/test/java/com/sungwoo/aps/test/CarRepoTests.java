@@ -1,6 +1,6 @@
 //package com.sungwoo.aps.test;
 //
-//import com.sungwoo.aps.models.Car;
+//import com.sungwoo.aps.domain.Car;
 //import com.sungwoo.aps.repo.CarRepo;
 //import org.junit.Before;
 //import org.junit.Test;

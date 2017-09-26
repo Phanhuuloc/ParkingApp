@@ -1,5 +1,6 @@
-package com.sungwoo.aps.models;
+package com.sungwoo.aps.domain.prime;
 
+import com.sungwoo.aps.domain.SungWooModel;
 import lombok.Data;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,11 +15,11 @@ import java.util.Date;
  * @author phloc
  */
 @Data
-@Entity(name = "AUTONOMOUS_CAR_INFO")
+@Entity(name = "autonomous_car_info")
 public class Car implements SungWooModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "CAR_ID", length = 16)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "car_id", length = 16)
     private int uid;
     @Column(name = "date_time", columnDefinition="DATETIME")
     @Temporal(TemporalType.TIMESTAMP)

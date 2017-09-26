@@ -1,8 +1,8 @@
 //package com.sungwoo.aps.test;
 //
 //import com.sungwoo.aps.controllers.LotController;
-//import com.sungwoo.aps.models.Car;
-//import com.sungwoo.aps.models.Lot;
+//import com.sungwoo.aps.domain.Car;
+//import com.sungwoo.aps.domain.Lot;
 //import com.sungwoo.aps.repo.CarRepo;
 //import com.sungwoo.aps.repo.LotRepo;
 //import com.sungwoo.aps.services.LotService;

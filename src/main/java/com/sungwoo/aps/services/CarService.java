@@ -1,9 +1,9 @@
 package com.sungwoo.aps.services;
 
-import com.sungwoo.aps.models.Car;
-import com.sungwoo.aps.repo.CarRepo;
-import com.sungwoo.aps.resp.DummyPath;
-import com.sungwoo.aps.resp.RequestResp;
+import com.sungwoo.aps.domain.prime.Car;
+import com.sungwoo.aps.repo.prime.CarRepo;
+import com.sungwoo.aps.response.DummyPath;
+import com.sungwoo.aps.response.TcpResultResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,9 +41,9 @@ public class CarService {
      *
      * @param carId car id
      */
-    public RequestResp carCall(int carId) {
+    public TcpResultResponse carCall(int carId) {
         TCPConnection.Permission permission = tcpConnection.execute(carId);
-        RequestResp resp = new RequestResp(String.format("0x%x", permission.getValue()), permission.getDes());
+        TcpResultResponse resp = new TcpResultResponse(String.format("0x%x", permission.getValue()), permission.getDes());
         if (permission.getValue() == TCPConnection.Permission.ALLOW.getValue()) {
             List<Point2D.Double> path = DummyPath.buildPath();
             Collections.reverse(path);

@@ -3,8 +3,8 @@
 //import com.sungwoo.aps.ApsApplication;
 //import com.sungwoo.aps.commons.AreaStatus;
 //import com.sungwoo.aps.commons.CarStatus;
-//import com.sungwoo.aps.models.Area;
-//import com.sungwoo.aps.models.Car;
+//import com.sungwoo.aps.domain.Area;
+//import com.sungwoo.aps.domain.Car;
 //import com.sungwoo.aps.repo.AreaRepo;
 //import com.sungwoo.aps.repo.CarRepo;
 //import org.junit.After;

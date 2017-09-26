@@ -1,7 +1,8 @@
 package com.sungwoo.aps.controllers;
 
-import com.sungwoo.aps.models.Area;
-import com.sungwoo.aps.repo.AreaRepo;
+import com.sungwoo.aps.domain.prime.Area;
+import com.sungwoo.aps.services.AreaService;
+import com.sungwoo.aps.services.GateService;
 import com.sungwoo.aps.support.InsertDB;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +34,16 @@ public class TestController {
     @Value("${name:World}")
     private String name;
 
-    final AreaRepo repo;
+    private final AreaService areaService;
+    private final GateService gateService;
 
-    final InsertDB insertDB;
+    private final InsertDB insertDB;
 
     @Autowired
-    public TestController(InsertDB insertDB, AreaRepo repo) {
+    public TestController(AreaService areaService, GateService gateService, InsertDB insertDB) {
+        this.areaService = areaService;
+        this.gateService = gateService;
         this.insertDB = insertDB;
-        this.repo = repo;
     }
 
 
@@ -70,12 +73,14 @@ public class TestController {
     public ResponseEntity batchArea() {
         List<Area> areas = insertDB.initDefaultLocal();
         for (Area area : areas) {
-            Area a = repo.findFirstByName(area.getName());
+            Area a = areaService.findFirstByName(area.getName());
             if (a != null) {
                 area.setUid(a.getUid());
             }
-            repo.saveAndFlush(area);
         }
+        areaService.saveAreas(areas);
+        gateService.saveGate(insertDB.initDefaultGate());
+
         return new ResponseEntity<>(String.format("Hello %s", this.name), HttpStatus.OK);
     }
 

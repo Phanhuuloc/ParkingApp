@@ -1,4 +1,4 @@
-package com.sungwoo.aps.models;
+package com.sungwoo.aps.domain;
 
 import org.json.JSONObject;
 

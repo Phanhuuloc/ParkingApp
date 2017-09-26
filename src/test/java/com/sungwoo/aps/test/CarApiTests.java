@@ -1,7 +1,7 @@
 //package com.sungwoo.aps.test;
 //
 //import com.sungwoo.aps.controllers.CarController;
-//import com.sungwoo.aps.models.Car;
+//import com.sungwoo.aps.domain.Car;
 //import com.sungwoo.aps.services.CarService;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;

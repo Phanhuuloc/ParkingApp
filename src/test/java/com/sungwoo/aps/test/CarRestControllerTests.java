@@ -2,7 +2,7 @@
 //
 //import com.sungwoo.aps.ApsApplication;
 //import com.sungwoo.aps.commons.CarStatus;
-//import com.sungwoo.aps.models.Car;
+//import com.sungwoo.aps.domain.Car;
 //import com.sungwoo.aps.repo.CarRepo;
 //import org.junit.After;
 //import org.junit.Test;

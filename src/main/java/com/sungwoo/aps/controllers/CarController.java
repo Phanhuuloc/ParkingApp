@@ -1,7 +1,7 @@
 package com.sungwoo.aps.controllers;
 
-import com.sungwoo.aps.models.Car;
-import com.sungwoo.aps.resp.RequestResp;
+import com.sungwoo.aps.domain.prime.Car;
+import com.sungwoo.aps.response.TcpResultResponse;
 import com.sungwoo.aps.services.CarService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -73,7 +73,7 @@ public class CarController implements CarApi {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = ResponseEntity.class)})
     @PostMapping(value = "call", produces = {"application/json", "text/json"})
     public ResponseEntity callCar(@RequestParam("car") int carUid) {
-        RequestResp resp = carService.carCall(carUid);
+        TcpResultResponse resp = carService.carCall(carUid);
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 }

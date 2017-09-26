@@ -1,10 +1,11 @@
 package com.sungwoo.aps.controllers;
 
 import com.sungwoo.aps.commons.AreaStatus;
-import com.sungwoo.aps.models.Area;
-import com.sungwoo.aps.resp.ModelContainer;
-import com.sungwoo.aps.resp.RequestResp;
+import com.sungwoo.aps.domain.prime.Area;
+import com.sungwoo.aps.response.ParkingAreaResponse;
+import com.sungwoo.aps.response.TcpResultResponse;
 import com.sungwoo.aps.services.AreaService;
+import com.sungwoo.aps.services.GateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -25,10 +26,12 @@ import java.util.List;
 @RequestMapping("area")
 public class AreaController implements AreaApi {
     private final AreaService areaService;
+    private final GateService gateService;
 
     @Autowired
-    public AreaController(AreaService areaService) {
+    public AreaController(AreaService areaService, GateService gateService) {
         this.areaService = areaService;
+        this.gateService = gateService;
     }
 
     @Override
@@ -41,7 +44,7 @@ public class AreaController implements AreaApi {
     public ResponseEntity requestAllArea() {
         List<Area> area = areaService.findAll();
         if (area != null) {
-            return new ResponseEntity<>(new ModelContainer<>(area), HttpStatus.OK);
+            return new ResponseEntity<>(new ParkingAreaResponse<>(area, gateService.findAll()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("count not find any area!", HttpStatus.BAD_REQUEST);
         }
@@ -58,7 +61,7 @@ public class AreaController implements AreaApi {
     public ResponseEntity requestCarParking(@RequestParam("car") int carUid) {
         Area area = areaService.findFirstByStatus(AreaStatus.EMPTY.value());
         if (area != null) {
-            RequestResp resp = areaService.doOnRequestParking(carUid, area);
+            TcpResultResponse resp = areaService.doOnRequestParking(carUid, area);
             return new ResponseEntity<>(resp, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

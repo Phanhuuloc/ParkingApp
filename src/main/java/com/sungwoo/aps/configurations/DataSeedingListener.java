@@ -1,9 +1,9 @@
 package com.sungwoo.aps.configurations;
 
-import com.sungwoo.aps.models.security.Role;
-import com.sungwoo.aps.models.security.User;
-import com.sungwoo.aps.repo.RoleRepository;
-import com.sungwoo.aps.repo.UserRepository;
+import com.sungwoo.aps.domain.security.Role;
+import com.sungwoo.aps.domain.security.User;
+import com.sungwoo.aps.repo.security.RoleRepository;
+import com.sungwoo.aps.repo.security.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

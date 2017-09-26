@@ -1,6 +1,6 @@
-package com.sungwoo.aps.repo;
+package com.sungwoo.aps.repo.prime;
 
-import com.sungwoo.aps.models.Area;
+import com.sungwoo.aps.domain.prime.Area;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

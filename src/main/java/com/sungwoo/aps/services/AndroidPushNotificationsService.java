@@ -1,9 +1,9 @@
 package com.sungwoo.aps.services;
 
 import com.sungwoo.aps.commons.CarStatus;
-import com.sungwoo.aps.models.Car;
-import com.sungwoo.aps.models.SungWooModel;
-import com.sungwoo.aps.repo.CarRepo;
+import com.sungwoo.aps.domain.SungWooModel;
+import com.sungwoo.aps.domain.prime.Car;
+import com.sungwoo.aps.repo.prime.CarRepo;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;

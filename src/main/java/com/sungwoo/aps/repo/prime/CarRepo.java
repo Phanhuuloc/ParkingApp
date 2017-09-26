@@ -1,6 +1,6 @@
-package com.sungwoo.aps.repo;
+package com.sungwoo.aps.repo.prime;
 
-import com.sungwoo.aps.models.Car;
+import com.sungwoo.aps.domain.prime.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

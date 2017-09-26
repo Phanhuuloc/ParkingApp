@@ -1,9 +1,9 @@
 package com.sungwoo.aps.services;
 
-import com.sungwoo.aps.models.Area;
-import com.sungwoo.aps.repo.AreaRepo;
-import com.sungwoo.aps.resp.DummyPath;
-import com.sungwoo.aps.resp.RequestResp;
+import com.sungwoo.aps.domain.prime.Area;
+import com.sungwoo.aps.repo.prime.AreaRepo;
+import com.sungwoo.aps.response.DummyPath;
+import com.sungwoo.aps.response.TcpResultResponse;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,9 +33,9 @@ public class AreaService {
      * @param area parking area
      * @throws JSONException
      */
-    public RequestResp doOnRequestParking(int carId, Area area) {
+    public TcpResultResponse doOnRequestParking(int carId, Area area) {
         TCPConnection.Permission permission = tcpConnection.execute(area.getUid(), carId);
-        RequestResp resp = new RequestResp(String.format("0x%x", permission.getValue()), permission.getDes());
+        TcpResultResponse resp = new TcpResultResponse(String.format("0x%x", permission.getValue()), permission.getDes());
         if (permission.getValue() == TCPConnection.Permission.ALLOW.getValue()) {
             resp.setArea(area);
             resp.setPoints(DummyPath.buildPath());
@@ -100,6 +100,15 @@ public class AreaService {
 
     public Area createArea(Area area) {
         return areaRepo.saveAndFlush(area);
+    }
+
+    public Area findFirstByName(String name) {
+        return areaRepo.findFirstByName(name);
+    }
+
+    public void saveAreas(List<Area> areas) {
+        areaRepo.deleteAllInBatch();
+        areaRepo.save(areas);
     }
 }
 

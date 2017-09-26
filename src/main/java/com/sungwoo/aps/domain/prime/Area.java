@@ -1,5 +1,6 @@
-package com.sungwoo.aps.models;
+package com.sungwoo.aps.domain.prime;
 
+import com.sungwoo.aps.domain.SungWooModel;
 import lombok.Data;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,11 +13,11 @@ import javax.validation.constraints.Min;
  * @author phloc
  */
 @Data
-@Entity(name = "PARKING_AREA_INFO")
+@Entity(name = "parking_area_info")
 public class Area implements SungWooModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", length = 16)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", length = 16)
     private int uid;
     @Column(length = 1024)
     private String name;

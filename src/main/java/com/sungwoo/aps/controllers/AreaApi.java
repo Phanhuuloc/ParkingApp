@@ -1,6 +1,6 @@
 package com.sungwoo.aps.controllers;
 
-import com.sungwoo.aps.models.Area;
+import com.sungwoo.aps.domain.prime.Area;
 import org.springframework.http.ResponseEntity;
 
 
