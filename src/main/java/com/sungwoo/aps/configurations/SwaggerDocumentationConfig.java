@@ -32,7 +32,7 @@ public class SwaggerDocumentationConfig {
                 .licenseUrl("")
                 .termsOfServiceUrl("")
                 .version("1.0.0")
-                .contact("support@ikornsolutions.com")
+                .contact("phloc@ikornsolutions.com")
                 .build();
     }
 
