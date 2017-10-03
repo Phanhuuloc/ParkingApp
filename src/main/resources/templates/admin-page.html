@@ -117,10 +117,24 @@
         var rbLat = fixLengthLatLon(sw.lat());
         var rbLong = fixLengthLatLon(sw.lng());
 
-        $.post("http://192.168.1.41:8888/api/area/create", {
+        var url = "http://192.168.1.41:9996/area/create";
+        var data = {
             name, status, ltLat, ltLong, rtLong, rtLat,
             lbLat, lbLong, rbLat, rbLong
+        };
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                alert("success")
+            }
         });
+
+//        $.post(url,data);
     }
 
     function drawPolygonSlot() {

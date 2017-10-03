@@ -1,4 +1,4 @@
-package com.sungwoo.aps.controllers;
+package com.sungwoo.aps.controllers.test;
 
 import com.sungwoo.aps.domain.prime.Area;
 import com.sungwoo.aps.services.AreaService;

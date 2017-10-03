@@ -77,8 +77,8 @@ public class AreaController implements AreaApi {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = ResponseEntity.class)})
     @PostMapping(value = "create", consumes = MediaType.ALL_VALUE,
             produces = {MediaType.ALL_VALUE})
-    public ResponseEntity createArea(Area area) {
-        Area a = areaService.createArea(area);
+    public ResponseEntity createArea(@RequestBody Area data) {
+        Area a = areaService.createArea(data);
         if (a != null) {
             return new ResponseEntity(HttpStatus.OK);
         } else {
